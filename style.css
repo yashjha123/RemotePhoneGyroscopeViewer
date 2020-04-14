@@ -1,0 +1,16 @@
+body{
+	margin: 20;
+	padding: 20;
+}
+.scene{
+	perspective: 900px;
+	position: fixed;
+	top: calc(50% - 150px);
+	left: calc(50% - 150px);
+}
+.card{
+	/*transform: rotateY(40deg);*/
+	background-color: orange;
+	height: 300px;
+	width: 300px;
+}

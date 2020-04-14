@@ -1,0 +1,98 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script type="text/javascript" src ="jquery.min.js"></script>
+    <title>Gyroscope thing!</title>
+
+    <!-- <script type="text/javascript">
+      let gyroscope = new Gyroscope({frequency: 60});
+
+        gyroscope.addEventListener('reading', e => {
+          console.log("Angular velocity along the X-axis " + gyroscope.x);
+          console.log("Angular velocity along the Y-axis " + gyroscope.y);
+          console.log("Angular velocity along the Z-axis " + gyroscope.z);
+        });
+        gyroscope.start();
+    </script> -->
+  </head>
+  <body>
+    <button id='btn'>Start</button>
+    <button id='btn2'>See</button>
+    <div class="scene">
+      <div class="card">
+
+      </div>
+    </div>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io();
+      socket.emit('news','Hello')
+      console.log("Hello!")
+      function handleOrientation(event) {
+        console.log("Triggered!")
+        socket.emit('data',{'x':event.alpha,'y':event.beta,'z':event.gamma})
+      }
+      function handleMotionEvent(event) {
+
+          var x = event.accelerationIncludingGravity.x;
+          var y = event.accelerationIncludingGravity.y;
+          var z = event.accelerationIncludingGravity.z;
+
+          console.log(x,y,z)
+      }
+      // window.removeEventListener("deviceorientation", handleOrientation); 
+      button = document.getElementById('btn')
+      button2 = document.getElementById('btn2')
+      button.onclick = function(e){
+        e.preventDefault();
+        console.log("Button Clicked!")
+        window.addEventListener("deviceorientation", handleOrientation);
+      }
+      button2.onclick = function(e){
+        e.preventDefault();
+        socket.emit('send','followME')
+      };
+      socket.on('rotation', function (data) {
+        // console.log('rotate('+data.x+'deg,'+data.y+'deg,'+data.z+'deg)')//)
+        $('.card').css('transform','rotateX('+(90-data.y)+'deg)'+'rotateY('+data.z+'deg)' +'rotateZ('+(-data.x)+'deg)')
+      });
+      // window.addEventListener("devicemotion", handleMotionEvent, true);
+      // import {
+      //         AbsoluteOrientationSensor,
+      //         RelativeOrientationSensor
+      //       } from './motion-sensors.js';
+      // // sensor = new Accelerometer()
+      // const options = { frequency: 60, referenceFrame: 'device' };
+      // const sensor = new AbsoluteOrientationSensor(options);
+
+      // sensor.addEventListener('reading', () => {
+      //   // model is a Three.js object instantiated elsewhere.
+      //   console.log(sensor.quaternion)
+      // });
+      // sensor.addEventListener('error', error => {
+      //   if (event.error.name == 'NotReadableError') {
+      //     console.log("Sensor is not available.");
+      //   }     
+      // });
+      // sensor.start();
+      // console.log(sensor)
+      // const params = new URLSearchParams(new URL(window.location.href).search.slice(1));
+      // const relative = !!Number(params.get("relative"));
+      // const coordinateSystem = params.get("coord");
+      // Promise.all([navigator.permissions.query({ name: "accelerometer" }),
+      //                        navigator.permissions.query({ name: "magnetometer" }),
+      //                        navigator.permissions.query({ name: "gyroscope" })])
+      //        .then(function() {
+      //           let sensor
+      //           socket.emit('news',{1:'hello'})
+      //           // sensor = ''
+      //           const options = { frequency: 60, coordinateSystem };
+      //           sensor = (relative ? new RelativeOrientationSensor(options) : new AbsoluteOrientationSensor(options));
+      //           sensor.onreading = () => console.log(sensor);
+      //           sensor.start();
+      //           console.log(sensor)
+      //        })
+      
+    </script>
+  </body>
+</html>
