@@ -13,8 +13,7 @@ Run command `node main.js`
 On your phone visit `https://192.168.1.13:3000` \
 and tap on "Start" \
 On your computer visit `https://192.168.1.13:3000` \
-and click on "See" \
+and click on "See" 
 
-The plane will intimate the Rotation of your phone. \
-
+The plane will intimate the Rotation of your phone. 
 
